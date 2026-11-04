@@ -84,6 +84,18 @@ npm run test:e2e
 
 每个后续任务使用独立的 `agent/` 分支和 worktree，明确要求时创建 Draft PR，由人检查后决定是否合并。报告实际执行的检查和未完成事项。
 
+## opencode-superagent（可选原生 agent）
+
+同仓库还附带一个可选的 opencode 原生 superagent：`superagent` 主 agent 把一个请求拆成 ticket，派发给 `superagent-worker` 子 agent，并用本地 ticket CLI 记录进度。它不启动常驻服务、不监听 GitHub/飞书，也不参与 TaskFlow 运行。用法和边界见 [opencode-superagent/README.md](opencode-superagent/README.md)。
+
+在仓库根目录打开 opencode 后执行：
+
+```text
+/superagent 给任务列表增加按标签筛选的接口，并补测试
+```
+
+ticket CLI 的测试用 `npm run test:superagent`，已包含在 `npm run check` 中。
+
 ## 当前边界
 
 本项目适合本机单用户运行。只绑定回环地址，检查 Host 与 Origin；没有用户登录、角色权限、TLS、多实例租约或公网部署支持。不要直接暴露到公网。

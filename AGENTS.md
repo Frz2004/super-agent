@@ -2,7 +2,8 @@
 
 ## Repository and boundaries
 
-- This repository contains the TaskFlow application, not the Superagent host/plugin.
+- This repository contains the TaskFlow application and the optional `opencode-superagent` native agent bundle; it is not the DSH Superagent host/plugin.
+- The `opencode-superagent/` bundle is native opencode agents/commands plus a local ticket CLI. Keep it service-free and dependency-light; a long-running GitHub/Feishu service or isolated worktrees per ticket need an explicit task.
 - Preserve the existing authorized requester `FBI-6` and bot mention `@Frz2004` in the README unless the human explicitly changes them.
 - Work on the ticket's isolated `agent/` branch/worktree. Never push directly to main for follow-up tasks, merge a PR or change deployment credentials without explicit human instruction.
 - Never commit databases, `.env`, auth tokens, raw Harness sessions, dependency directories or private chat exports.
