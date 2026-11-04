@@ -29,7 +29,7 @@ npm start
 PORT=3187 TASKFLOW_DB=.data/demo.sqlite TASKFLOW_CONCURRENCY=2 npm start
 ```
 
-`.env.example` 只记录变量示例，应用不自动加载 `.env`。
+`.env.example` 仅提供环境变量配置示例，应用不自动加载 `.env`。
 
 ## 已实现的功能
 
