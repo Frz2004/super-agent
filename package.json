@@ -16,8 +16,9 @@
     "seed": "tsx server/seed.ts",
     "typecheck": "tsc --noEmit",
     "test": "tsx --test --test-concurrency=1 tests/*.test.ts",
+    "test:superagent": "node --test opencode-superagent/tickets.test.mjs opencode-superagent/bundle.test.mjs",
     "test:e2e": "playwright test",
-    "check": "npm run typecheck && npm run format:check && npm test && npm run build",
+    "check": "npm run typecheck && npm run format:check && npm test && npm run test:superagent && npm run build",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
