@@ -140,13 +140,20 @@ test('concurrency never exceeds configured limit and canceled queued run is skip
   runner.tick();
   runner.tick();
   assert.equal(runner.runningCount, 2);
-  assert.equal(f.service.run(runs[2].id).status, 'queued');
   assert.equal(peak, 2);
-  const done = Promise.all(runs.slice(0, 2).map((r) => waitRun(f.service, r.id)));
+  // The queue orders by createdAt and then id; creation order is not queue order
+  // because createRun can produce the same millisecond and ids are random UUIDs.
+  const candidates = runs.slice(0, 3);
+  const active = candidates.filter((run) => f.service.run(run.id).status === 'running');
+  const waiting = candidates.filter((run) => f.service.run(run.id).status === 'queued');
+  assert.equal(active.length, 2);
+  assert.equal(waiting.length, 1);
+  assert.equal(f.service.run(runs[3].id).status, 'canceled');
+  const done = Promise.all(active.map((run) => waitRun(f.service, run.id)));
   gate.resolve();
   await done;
   for (let i = 0; i < 50 && runner.runningCount; i++) await delay(1);
-  const third = waitRun(f.service, runs[2].id);
+  const third = waitRun(f.service, waiting[0].id);
   runner.tick();
   await third;
   assert.equal(peak, 2);
