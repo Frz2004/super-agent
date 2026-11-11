@@ -35,6 +35,7 @@ import type {
   TaskStatus,
 } from '../shared/types.js';
 import { api, ApiError } from './api.js';
+import { canRunTask } from './task-state.js';
 import './style.css';
 
 const statuses: TaskStatus[] = ['todo', 'in_progress', 'done', 'canceled'];
@@ -674,11 +675,10 @@ function App() {
                   <button
                     className="button primary"
                     disabled={
-                      busy ||
-                      !!project?.archived ||
-                      detail.task.blockedBy.length > 0 ||
-                      !['todo', 'in_progress'].includes(detail.task.status) ||
-                      detail.runs.some((r) => ['queued', 'running'].includes(r.status))
+                      !canRunTask(detail.task, detail.runs, {
+                        archived: !!project?.archived,
+                        busy,
+                      })
                     }
                     onClick={() =>
                       void action(
